@@ -1,7 +1,7 @@
 on:
-  #schedule:
-    #- cron: '*/3 * * * *'
-    #- cron: '*/5 * * * *'
+  schedule:
+    - cron: '*/3 * * * *'
+    - cron: '*/5 * * * *'
     #- cron: '*/4 * * * *'
     
   workflow_dispatch:
@@ -10,11 +10,12 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
+      - if: github.event.schedule != '*/3 * * * *'
       - name: Only for 5 min
-        if: github.event.schedule != '*/3 * * * *' && github.event.schedule != '*/4 * * * *'
+        #if: github.event.schedule != '*/3 * * * *' && github.event.schedule != '*/4 * * * *'
         run: echo "This job1 step will be skipped on Monday and Wednesday"
       - name: Only for 3 min and 5 min
-        if: github.event.schedule != '*/4 * * * *'
+        #if: github.event.schedule != '*/4 * * * *'
         run: echo "This job1 step will be skipped on Monday and Wednesday"
       - name: Every time
         run: echo "This job1 step will always run"
@@ -22,11 +23,12 @@ jobs:
   job2:
     runs-on: ubuntu-latest
     steps:
+      - if: github.event.schedule != '*/5 * * * *'
       - name: Only for 3 min
-        if: github.event.schedule != '*/4 * * * *' && github.event.schedule != '*/5 * * * *'
+        #if: github.event.schedule != '*/4 * * * *' && github.event.schedule != '*/5 * * * *'
         run: echo "This job2 step will be skipped on Monday and Wednesday"
       - name: Only for 4 min
-        if: github.event.schedule != '*/5 * * * *' && github.event.schedule != '*/3 * * * *'
+        #if: github.event.schedule != '*/5 * * * *' && github.event.schedule != '*/3 * * * *'
         run: echo "This step job2 will be skipped on Monday and Wednesday"
       - name: Every time
         run: echo "This job2 step will always run"
